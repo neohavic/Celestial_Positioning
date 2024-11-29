@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_PositionMotors" Id="{978aa901-9763-45b8-8412-83492e30cab0}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PositionMotors
+VAR_INPUT
+	fSunAltitude		: LREAL;
+	fSunAzimuth			: LREAL;
+END_VAR
+VAR_OUTPUT
+	Done_Alt			: BOOL;
+	Busy_Alt			: BOOL;
+	Active_Alt			: BOOL;
+	Error_Alt			: BOOL;
+	ErrorID_Alt			: UDINT;
+	
+	Done_Az				: BOOL;
+	Busy_Az				: BOOL;
+	Active_Az			: BOOL;
+	Error_Az			: BOOL;
+	ErrorID_Az			: UDINT;
+END_VAR
+VAR
+	Step				: INT := 0;	
+
+	
+	fbPowerAlt			: MC_Power;
+	fbPowerAz			: MC_Power;
+	fbMoveAlt			: MC_MoveAbsolute;
+	fbMoveAz			: MC_MoveAbsolute;
+	fbHaltAz			: Mc_Halt;
+	fbHaltAlt			: Mc_Halt;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE step OF
+
+0:	
+fbPowerAlt(
+	Axis := GVL.Alt,
+	Enable := TRUE,
+	Enable_Positive := TRUE,
+	Enable_Negative := TRUE,
+	Override := 100,
+	);
+	
+fbPowerAz(
+	Axis := GVL.Az,
+	Enable := TRUE,
+	Enable_Positive := TRUE,
+	Enable_Negative := TRUE,
+	Override := 100,
+	);
+	
+	step := 1;
+
+1:
+fbMoveAlt(
+	Axis := GVL.Alt,
+	Execute := TRUE,
+	Position := fSunAltitude,
+	Velocity := 5,
+	Acceleration := 1,
+	Deceleration := 1,
+	Jerk := 1,
+	Done => Done_Alt,
+	Busy => Busy_Alt,
+	Active => Active_Alt,
+	Error => Error_Alt,
+	ErrorID => ErrorID_Alt,
+	);
+	
+step := 2;
+
+2:
+fbMoveAz(
+	Axis := GVL.Az,
+	Execute := TRUE,
+	Position := fSunAzimuth,
+	Velocity := 5,
+	Acceleration := 1,
+	Deceleration := 1,
+	Jerk := 1,
+	Done => Done_Az,
+	Busy => Busy_Az,
+	Active => Active_Az,
+	Error => Error_Az,
+	ErrorID => ErrorID_Az,
+	);
+	
+	step := 10;
+3:	
+fbHaltAlt(
+	Axis := GVL.Alt,
+	Execute := TRUE,
+	Deceleration := 1,
+	Jerk := 1,
+	Done => Done_Alt,
+	Busy => Busy_Alt,
+	Active => Active_Alt
+	);
+	
+	step := 4;
+
+4:
+fbHaltAz(
+	Axis := GVL.Az,
+	Execute := TRUE,
+	Deceleration := 1,
+	Jerk := 1,
+	Done => Done_Az,
+	Busy => Busy_Az,
+	Active => Active_Az,
+	);
+	
+step := 1;
+
+10:
+fbMoveAz.Execute := FALSE;
+fbMoveAlt.Execute := FALSE;
+step := 1;
+
+END_CASE]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="FB_PyListener" Id="{2331eab0-ebb3-4fa2-a57c-b8a2a6d91cc4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PyListener
+VAR_INPUT
+	bExecute			: BOOL := FALSE;
+	Initialized 		: BOOL := FALSE;
+	Init_State  		: UINT := 0;
+END_VAR
+VAR_OUTPUT
+	bIsBusy				: BOOL;
+    ERR             	: BOOL;
+    ERRID           	: UDINT;
+END_VAR
+VAR
+	Process         	: NT_StartProcess;
+	RisingEdge			: R_TRIG;
+	bError          	: BOOL;
+    sTargetFilePath     : STRING(255);
+    sTargetDirectory    : STRING(255);
+    sCommand        	: STRING(255);
+    iErrorId            : UDINT; 	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT Initialized THEN
+  (* Initialization State Machine *)
+  CASE Init_State OF
+    0: (* First step in initialization *)
+	
+		// File Locations
+		sTargetDirectory := 'C:\Users\AEverman\Desktop\Celestial_Positioning\Celestial_Positioning\Celestial_Positioning\PLC\SCRIPTS\';
+ 
+		// Build Command String                 
+		// Special command indicating command string input
+		sCommand := CONCAT(sTargetDirectory, 'GPS_COORD_FIND.py');      // Execute Python data collection script
+        Init_State := Init_State + 1;
+	   
+    1: (* Second step in initialization *)
+		Process(
+    	NETID := '',                    					// Local System
+		//PATHSTR := 'C:\ProgramData\Anaconda3\python.exe ',   // Path to local cmd executable
+		PATHSTR := 'python',
+    	COMNDLINE := sCommand,          					// Comnmand to be executed
+    	ERR => bError,                   					// Error Output
+    	ERRID => iErrorId,                					// Error Id Output
+		BUSY => bIsBusy,									// Process is already busy, used to not call multiple instances
+		START := TRUE
+		);
+        Init_State := Init_State + 1;
+
+    2: (* Last step in initialization *)
+		Process(
+			START := FALSE,
+			BUSY => bIsBusy
+		);
+		bExecute := FALSE;
+		RisingEdge.CLK := FALSE;
+        Initialized := TRUE;
+  END_CASE
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

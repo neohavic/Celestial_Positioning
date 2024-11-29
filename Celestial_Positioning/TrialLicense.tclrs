@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<TcLicenseInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2011/11/TcLicenseInfo">
+	<LicenseInfo>
+		<SystemId>{37ED003C-2918-E040-1840-0BE846210B07}</SystemId>
+		<IssueTime>2024-11-28T20:40:00</IssueTime>
+		<ExpireTime>2024-12-06T00:00:00</ExpireTime>
+		<LicenseKey>8bf03194dd873b8af653ee053c0d41d7d28d619e6143cc36927197c8db8dfd3c7df8bb85db99d2e1113f25482898969b3067887733013ca0583ee7669070c70fab83484c66ef12dc3a86a574b911f5af7a889cdf4da16a2e787320a7328ce03042a994b3d543d5b5e705b4bd5fa83b61084607e2c3e0f205ddd328003a0fc3a7fe8adeff4eafec947028ca304e64ddf521cd04025c10c6f8e41461ded0945f09391c8c4ee2eb8fe17f3bcf1b2eeeffb5f20442d5eff0c88a63787c0bf97edf189226bf612d22f985f045601bf009d09c03d268c266d6df36f93ce3f66aad0ee9fe0e7deb65580f0ece42e03178197e7f68bb9a18e0cce767700d2b13e77ed2f2</LicenseKey>
+		<License>
+			<LicenseId>{4C256767-E6E6-4AF5-BD68-9F7ABAD0C200}</LicenseId>
+			<Name>TC3 ADS</Name>
+			<OrderNo>TC1000</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{3FF18E97-7754-401B-93FB-70544DE28A13}</LicenseId>
+			<Name>TC3 IO</Name>
+			<OrderNo>TC1100</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{66689887-CCBD-452C-AC9A-039D997C6E66}</LicenseId>
+			<Name>TC3 PLC</Name>
+			<OrderNo>TC1200</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+			<Name>TC3 C++</Name>
+			<OrderNo>TC1300</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{A19036CF-A53B-4E3A-99FF-023EF5C4798B}</LicenseId>
+			<Name>TC3 NC PTP Axis</Name>
+			<Instances>10</Instances>
+		</License>
+		<License>
+			<LicenseId>{520DE751-9DB6-47CB-8240-BD5C466E7E64}</LicenseId>
+			<Name>TC3 NC PTP</Name>
+			<OrderNo>TF5000</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{5A66BBF9-8644-450F-9F23-1B3A7DAEEAD1}</LicenseId>
+			<Name>TC3 Solar-Position-Algorithm</Name>
+			<OrderNo>TF3900</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{37E5160D-987B-4640-888D-0F97727B53E2}</LicenseId>
+			<Name>TC3 HMI Clients</Name>
+			<Instances>1</Instances>
+		</License>
+		<License>
+			<LicenseId>{A2091C4C-7D04-4202-B173-9984E7125BC0}</LicenseId>
+			<Name>TC3 HMI Targets</Name>
+			<Instances>1</Instances>
+		</License>
+		<License>
+			<LicenseId>{CCE50C10-2CAA-4243-8182-080F02C5BE3D}</LicenseId>
+			<Name>TC3 Reporting Server</Name>
+		</License>
+		<License>
+			<LicenseId>{796D380F-D49E-4C0C-A05F-500052FAC883}</LicenseId>
+			<Name>TC3 HMI Server</Name>
+			<OrderNo>TF2000</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{D58728E0-7762-4145-8A93-80D55E0453A6}</LicenseId>
+			<Name>TC3 HMI Extension SDK</Name>
+			<OrderNo>TF2200</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{D4390DEA-A64D-494D-9E09-275326DBB0CB}</LicenseId>
+			<Name>TC3 PLC-HMI (RT)</Name>
+		</License>
+		<License>
+			<LicenseId>{FDE02854-39A7-440C-9EAE-C234A16A3CED}</LicenseId>
+			<Name>TC3 PLC-HMI</Name>
+			<OrderNo>TF1800</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{7AFD0713-1333-4A3B-938C-7B9BD0418C8D}</LicenseId>
+			<Name>TC3 PLC-HMI Web</Name>
+			<OrderNo>TF1810</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{DEA72F0A-9EA0-48F4-ABB5-766516202B8E}</LicenseId>
+			<Name>TC3 NC I</Name>
+			<OrderNo>TF5100</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{B56E7280-5DD4-4AB8-8075-075DD69C1C3D}</LicenseId>
+			<Name>TC3 Kinematic Transformation L2</Name>
+			<OrderNo>TF5111</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{C0BF0BC1-CBED-4D55-86DC-0706BF289DCE}</LicenseId>
+			<Name>TC3 Kinematic Transformation L1</Name>
+			<OrderNo>TF5110</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{EDABAF2B-31BD-44EA-812D-3BEA277A1355}</LicenseId>
+			<Name>TC3 Kinematic Transformation L3</Name>
+			<OrderNo>TF5112</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{C13CAEC7-1F41-4491-935E-FF6254005C74}</LicenseId>
+			<Name>TC3 Physics Base</Name>
+			<OrderNo>TF5440</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{1C844D20-6568-4164-87F8-B6791D563CA7}</LicenseId>
+			<Name>TC3 Kinematic Transformation L4</Name>
+			<OrderNo>TF5113</OrderNo>
+		</License>
+	</LicenseInfo>
+</TcLicenseInfo>

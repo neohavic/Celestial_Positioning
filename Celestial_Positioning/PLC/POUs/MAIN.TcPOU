@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1">
+  <POU Name="MAIN" Id="{eb4ab3a1-0b9a-4756-b9e2-ab2647be2fe6}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	// Sun position variables
+	fbGetTime				: NT_GetTime;
+	fbPyListener			: FB_PyListener;
+	currTime				: TIMESTRUCT;
+	timer					: TON;
+	fbSPA     				: FB_SPA;
+    fSunZenith 				: LREAL;
+    fSunAzimuth 			: LREAL;
+	fSunAltitude			: LREAL;
+    tSunrise    			: TIME;
+    tSunset     			: TIME;
+    eErrorCode 				: E_SPA_ErrorCode;
+    bExecute    			: BOOL := TRUE;
+    bInit     				: BOOL := TRUE;
+	go						: BOOL := FALSE;
+	
+	// Motion control variables
+	fbPositionMotors		: FB_PositionMotors;
+	fbResetMotors			: MC_Reset;
+	bResetMotors			: BOOL := FALSE;
+	Az						: Axis_Ref;
+	Alt						: Axis_Ref;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[timer(
+	IN := TRUE, 
+	PT := T#1S
+	);
+
+fbGetTime(
+	NETID := '',
+	Start := timer.Q,
+	TMOUT := DEFAULT_ADS_TIMEOUT,
+	BUSY =>,
+	ERRID =>,
+	TIMESTR => currTime
+	);
+	
+fbPylistener(bExecute := TRUE);					// Grab lat, long, and other data... tell the rest of the
+												// program when its done and its good to go
+
+IF timer.Q THEN
+ 	fbSPA.stTime.iYear := currTime.wYear;
+ 	fbSPA.stTime.iMonth := currTime.wMonth;
+ 	fbSPA.stTime.iDay := currtime.wDay;
+ 	fbSPA.stTime.iHour := currTime.wHour;
+ 	fbSPA.stTime.iMinute := currTime.wMinute;
+ 	fbSPA.fTimezone; 							// Uses UTC offset
+ 	fbSPA.fLongitude; 							// Grabbed from Python script
+ 	fbSPA.fLatitude; 							// Grabbed from Python script
+ 	fbSPA.fElevation; 							// Meters, grabbed from Python script
+ 	fbSPA.fTemperature := 20; 					// Celsius... grab temp from either web, python, USB, or whatever
+ 	fbSPA.eFunction := eSPA_ZA_RTS;
+END_IF
+
+IF go = TRUE THEN 								// Tie all GO commands to execute after geo location 
+												// is found, Q timers
+
+IF timer.Q THEN
+	
+    fbSPA();
+	
+    fSunZenith := fbSPA.fZenith;
+	fSunAltitude := 90 - fSunZenith; 			// Get altitude from zenith
+    fSunAzimuth := fbSPA.fAzimuth;
+    tSunrise := LREAL_TO_TIME(fbSPA.fSunrise * 60 * 60 * 1000);
+    tSunset := LREAL_TO_TIME(fbSPA.fSunset * 60 * 60 * 1000);
+	
+	eErrorCode := fbSPA.iErrorCode;
+	
+	fbPositionMotors( 
+		fSunAltitude := fSunAltitude,
+		fSunAzimuth := fSunAzimuth 
+		);
+	
+	IF bResetMotors = TRUE THEN
+		fbResetMotors(Axis := GVL.Az, Execute := TRUE);
+		fbResetMotors(Axis := GVL.Alt, Execute := TRUE);
+		bResetMotors := FALSE;
+	END_IF
+	
+END_IF
+
+IF (timer.Q) THEN
+	timer(IN := FALSE);
+END_IF
+
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
