@@ -1499,8 +1499,8 @@ External Setpoint Generation:
 			</Settings>
 			<Licenses>
 				<Target>
-					<ManualSelect>{304D006A-8299-4560-AB79-438534B50288}</ManualSelect>
 					<ManualSelect>{D58728E0-7762-4145-8A93-80D55E0453A6}</ManualSelect>
+					<ManualSelect>{304D006A-8299-4560-AB79-438534B50288}</ManualSelect>
 					<ManualSelect>{FDE02854-39A7-440C-9EAE-C234A16A3CED}</ManualSelect>
 					<ManualSelect>{7AFD0713-1333-4A3B-938C-7B9BD0418C8D}</ManualSelect>
 					<ManualSelect>{C0BF0BC1-CBED-4D55-86DC-0706BF289DCE}</ManualSelect>
@@ -1856,7 +1856,7 @@ External Setpoint Generation:
 		</Motion>
 		<Plc>
 			<Project GUID="{BD3A9DFB-1731-4554-863D-D09A60A64E44}" Name="PLC" PrjFilePath="PLC\PLC.plcproj" TmcFilePath="PLC\PLC.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{70F0B4E1-DA74-5E31-3989-E5B445F25E02}" TmcPath="PLC\PLC.tmc">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcHash="{581D27EE-B1B8-7B9E-A3CD-8909429ABE66}" TmcPath="PLC\PLC.tmc">
 					<Name>PLC Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Vars VarGrpType="2" AreaNo="1">
@@ -2841,10 +2841,24 @@ External Setpoint Generation:
 		<OwnerA Name="TIPC^PLC^PLC Instance">
 			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Alt">
 				<Link VarA="PlcTask Inputs^GVL.Alt.NcToPlc" VarB="Outputs^ToPlc"/>
+				<Link VarA="PlcTask Inputs^MAIN.Alt.NcToPlc^ActPos" VarB="Outputs^ToPlc^ActPos"/>
+				<Link VarA="PlcTask Inputs^MAIN.Alt.NcToPlc^ActVelo" VarB="Outputs^ToPlc^ActVelo"/>
+				<Link VarA="PlcTask Inputs^MAIN.Alt.NcToPlc^AxisId" VarB="Outputs^ToPlc^AxisId"/>
+				<Link VarA="PlcTask Inputs^MAIN.Alt.NcToPlc^SetAcc" VarB="Outputs^ToPlc^SetAcc"/>
+				<Link VarA="PlcTask Inputs^MAIN.Alt.NcToPlc^SetPos" VarB="Outputs^ToPlc^SetPos"/>
+				<Link VarA="PlcTask Inputs^MAIN.Alt.NcToPlc^SetVelo" VarB="Outputs^ToPlc^SetVelo"/>
+				<Link VarA="PlcTask Inputs^MAIN.Alt.NcToPlc^TargetPos" VarB="Outputs^ToPlc^TargetPos"/>
 				<Link VarA="PlcTask Outputs^GVL.Alt.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
 			<OwnerB Name="TINC^NC-Task 1 SAF^Axes^Az">
 				<Link VarA="PlcTask Inputs^GVL.Az.NcToPlc" VarB="Outputs^ToPlc"/>
+				<Link VarA="PlcTask Inputs^MAIN.Az.NcToPlc^ActPos" VarB="Outputs^ToPlc^ActPos"/>
+				<Link VarA="PlcTask Inputs^MAIN.Az.NcToPlc^ActVelo" VarB="Outputs^ToPlc^ActVelo"/>
+				<Link VarA="PlcTask Inputs^MAIN.Az.NcToPlc^AxisId" VarB="Outputs^ToPlc^AxisId"/>
+				<Link VarA="PlcTask Inputs^MAIN.Az.NcToPlc^SetAcc" VarB="Outputs^ToPlc^SetAcc"/>
+				<Link VarA="PlcTask Inputs^MAIN.Az.NcToPlc^SetPos" VarB="Outputs^ToPlc^SetPos"/>
+				<Link VarA="PlcTask Inputs^MAIN.Az.NcToPlc^SetVelo" VarB="Outputs^ToPlc^SetVelo"/>
+				<Link VarA="PlcTask Inputs^MAIN.Az.NcToPlc^TargetPos" VarB="Outputs^ToPlc^TargetPos"/>
 				<Link VarA="PlcTask Outputs^GVL.Az.PlcToNc" VarB="Inputs^FromPlc"/>
 			</OwnerB>
 		</OwnerA>

@@ -7,9 +7,8 @@ import tzlocal
 import requests
 import time
 import serial
-
-ser = serial.Serial('COM3', 9600, timeout=1)
-
+import pynmea2
+    
 # Get GPS cordinates of current IP location
 nom = ArcGIS()
 g = geocoder.ip('me')
@@ -38,18 +37,50 @@ try:
     print("Connecting to TwinCAT...")
     plc = pyads.Connection(AMSAddr, Port)
     plc.open()
-    print("Local address: " + str(plc.get_local_address()) + "\n")
-    print("CONNECTED TO TWINCAT")
+    print("Local address: " + str(plc.get_local_address()))
+    print("CONNECTED TO TWINCAT \n")
 except:
     print("Could not connect to hardpoint teststand.\n Check that the NetID of the local machine is entered correctly.\n Now exiting.")
 
-print("latitude = " + str(latitude))
-print("longitude = " + str(longitude))
+print("Trying to get GPS coordinates. Accuracy is higher than IP based coordinates.")
+
+try:
+
+    ser = serial.Serial('COM3', 9600, timeout=1)
+
+    while ser.readline().decode('ascii', errors='replace') != '$GPGGA':
+        try:
+            # Read a line from the serial port
+            line = ser.readline().decode('ascii', errors='replace')
+        
+            # Check if the line contains a GGA sentence (which includes position data)
+            if line.startswith('$GPGGA'):
+                msg = pynmea2.parse(line)
+                gpsLat = msg.latitude
+                gpsLong = msg.longitude
+                #print(f"Latitude: {msg.latitude}, Longitude: {msg.longitude}")
+                print("GPS coordinates:")
+                print("Latitude: " + str(gpsLat) + " , " + "Longitude: " + str(gpsLong) + "\n")
+                break
+        except pynmea2.ParseError as e:
+            pass
+except:
+    print("Unable to connect to serial port and/or GPS.\n")
+
+print("Getting Coordinates from IP Address...")
+print("Latitude = " + str(latitude))
+print("Longitude = " + str(longitude))
 print("Elevation = " + str(elevation))
 print("Timezone UTC = " + str(tz_utc))
 
-plc.write_by_name("MAIN.fbSPA.fLatitude", latitude)
-plc.write_by_name("MAIN.fbSPA.fLongitude", longitude)
+if plc.read_by_name("MAIN.bUseGpsTime") == False:
+    plc.write_by_name("MAIN.fbSPA.fLatitude", latitude)
+    plc.write_by_name("MAIN.fbSPA.fLongitude", longitude)
+    
+if plc.read_by_name("MAIN.bUseGpsTime") == True:
+    plc.write_by_name("MAIN.fbSPA.fLatitude", gpsLat)
+    plc.write_by_name("MAIN.fbSPA.fLongitude", gpsLong)
+
 plc.write_by_name("MAIN.fbSPA.fElevation", elevation)
 plc.write_by_name("MAIN.fbSPA.fTimezone", int(tz_utc))
 go = True

@@ -130,6 +130,11 @@
               <v n="TextDefault">"Telescope Controls"</v>
               <l n="LanguageTexts" t="ArrayList" />
             </o>
+            <o>
+              <v n="TextID">"978"</v>
+              <v n="TextDefault">"Use GPS Time"</v>
+              <l n="LanguageTexts" t="ArrayList" />
+            </o>
           </l>
           <l n="Languages" t="ArrayList" />
           <v n="GuidInit">{0a62a617-274b-4706-996e-aa81c7fe3a68}</v>

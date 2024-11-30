@@ -18,6 +18,9 @@ VAR
     bExecute    			: BOOL := TRUE;
     bInit     				: BOOL := TRUE;
 	go						: BOOL := FALSE;
+	pGpsLatitude			: LREAL;
+	pGpsLongitude			: LREAL;
+	bUseGpsTime				: BOOL;
 	
 	// Motion control variables
 	fbPositionMotors		: FB_PositionMotors;
@@ -44,7 +47,7 @@ fbGetTime(
 	);
 	
 fbPylistener(bExecute := TRUE);					// Grab lat, long, and other data... tell the rest of the
-												// program when its done and its good to go
+//fbPylistener(bExecute := FALSE);				// program when its done and its good to go
 
 IF timer.Q THEN
  	fbSPA.stTime.iYear := currTime.wYear;
@@ -84,6 +87,15 @@ IF timer.Q THEN
 		fbResetMotors(Axis := GVL.Az, Execute := TRUE);
 		fbResetMotors(Axis := GVL.Alt, Execute := TRUE);
 		bResetMotors := FALSE;
+		fbResetMotors(Axis := GVL.Az, Execute := FALSE);
+		fbResetMotors(Axis := GVL.Alt, Execute := FALSE);
+	END_IF
+	
+	IF bUseGpsTime = TRUE THEN
+		fbPyListener(bExecute := FALSE);
+		fbPyListener.Init_State := 0;
+		fbPyListener(bExecute := TRUE);
+		//fbPyListener(bExecute := FALSE);
 	END_IF
 	
 END_IF
